@@ -1,0 +1,29 @@
+services:
+  backend:
+    build: .
+    container_name: delivery-backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DATABASE_USER: delivery_user
+      DATABASE_PASSWORD: delivery_pass
+      DATABASE_NAME: delivery_db
+    restart: always
+
+  db:
+    image: postgres:15
+    container_name: delivery-db
+    environment:
+      POSTGRES_USER: delivery_user
+      POSTGRES_PASSWORD: delivery_pass
+      POSTGRES_DB: delivery_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
